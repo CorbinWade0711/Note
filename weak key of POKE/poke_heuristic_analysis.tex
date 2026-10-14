@@ -1,0 +1,468 @@
+% !TeX program = xelatex
+% Compile twice with XeLaTeX (or pdfLaTeX).
+\documentclass[a4paper,11pt]{article}
+\usepackage[margin=25mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{microtype}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\DeclareMathOperator{\sfpart}{sf}
+\DeclareMathOperator{\TV}{TV}
+\newcommand{\Rset}{\mathcal R}
+\newcommand{\PrD}{\mathbb P_{\Delta}}
+\newcommand{\PrU}{\mathbb P_{\mathrm U}}
+\newcommand{\N}{\mathbb N}
+\hypersetup{
+  pdftitle={A congruence obstruction to Heuristic 1 in POKE-2D},
+  pdfauthor={Wenbiao Chen}
+}
+
+\begin{document}
+
+\noindent Title: \textbf{A congruence obstruction to Heuristic 1 in POK\'E-2D}
+\par\vspace{1em}
+\noindent
+\begin{minipage}[t]{0.76\textwidth}
+Author: Wenbiao Chen, Institute of Information Engineering,\\
+Chinese Academy of Sciences, China.
+\end{minipage}\hfill
+\begin{minipage}[t]{0.23\textwidth}
+\raggedleft Date: Oct. 14, 2026
+\end{minipage}
+\par\vspace{1.4em}
+
+This note concerns the probability estimates in \emph{On weak keys of
+POK\'E}~\cite{Moriya2026}. For POK\'E-2D, the square-free part of
+$D'^2-\delta$ satisfies congruence restrictions absent from the uniform
+reference model in Heuristic~1. We give an explicit statistical-distance
+bound and an admissible candidate set with zero actual weak-key probability
+but a constant-order estimate in the paper's regime $D'^2\asymp\delta_m$.
+For the actual KeyGen parameters, the square condition targeted by
+Algorithm~1 is impossible. Detailed proofs are in the appendices.
+
+\section{Setting and the distributional obstruction}
+
+We use the paper's notation:
+\[
+ \Delta=\{q(A-q):q\in\{1,\ldots,A-1\}\},
+ \qquad \delta_m=\max\Delta=\frac{A^2}{4}.
+\]
+Assume $8\mid A$, which holds in the original POK\'E-2D
+parameterization~\cite{BassoMaino2025} with $A=2^a$ and $a\ge3$.
+We retain the paper's conditions
+$\gcd(A,D)=1$, $D'\mid D$, and $D'\ge\sqrt{\delta_m}$.
+Thus $D'$ is odd and $D'^2>\delta_m$.
+
+Let $\sfpart(n)$ denote the unique square-free integer $r$ such that
+$n=rc^2$ for a positive integer $c$. Let
+\[
+ \delta\overset{\$}{\leftarrow}\Delta,
+ \qquad
+ \delta_0\overset{\$}{\leftarrow}\{1,\ldots,\delta_m\},
+ \qquad
+ S=\sfpart(D'^2-\delta),\quad S_0=\sfpart(D'^2-\delta_0).
+\]
+Write $\PrD$ and $\PrU$ for these two probability models.
+The first sampling rule is uniform over the distinct degrees in $\Delta$,
+as in the paper. For square-free $r$, Heuristic~1 asserts the unquantified approximation
+\begin{equation}\label{eq:H1}
+ \PrD[S=r]\approx\PrU[S_0=r].
+\end{equation}
+
+Here $\mathcal L(S)$ denotes the probability distribution of $S$.
+The total variation distance is
+\begin{align*}
+ \TV\bigl(\mathcal L(S),\mathcal L(S_0)\bigr)
+ &:=\sup_{\mathcal E\subseteq\N}
+       |\PrD[S\in\mathcal E]-\PrU[S_0\in\mathcal E]|\\
+ &=\frac12\sum_{r\ge1}|\PrD[S=r]-\PrU[S_0=r]|.
+\end{align*}
+
+\begin{proposition}[Explicit distributional discrepancy]\label{prop:gap}
+Let $\varepsilon=(\lfloor\log_4\delta_m\rfloor+2)/\delta_m$.
+The degree set $\Delta$ imposes the restriction
+\[
+ S\bmod8\in\{1,2,5\}.
+\]
+In contrast, for each $u\in\{1,2,3,5,6,7\}$,
+\[
+ \left|\PrU[S_0\equiv u\pmod8]-\frac16\right|
+ \le\varepsilon.
+\]
+Consequently, for the event
+$\mathcal B=\{r\in\N:r\bmod8\in\{3,6,7\}\}$,
+\begin{equation}\label{eq:forbidden}
+ \PrD[S\in\mathcal B]=0,
+ \qquad
+ \left|\PrU[S_0\in\mathcal B]-\frac12\right|\le3\varepsilon,
+\end{equation}
+and hence
+\begin{equation}\label{eq:TV}
+ \TV\bigl(\mathcal L(S),\mathcal L(S_0)\bigr)
+ \ge\frac12-3\varepsilon.
+\end{equation}
+\end{proposition}
+
+Since $\varepsilon\to0$ as $\delta_m\to\infty$, Heuristic~1 cannot hold
+in total variation with vanishing error. If interpreted only as an additive $o(1)$
+error for each fixed $r$, it is not contradicted by this argument.
+However, that interpretation neither controls the relative error in the
+small probabilities estimated in Theorem~14 nor justifies summing the
+errors over a growing set $\Rset$ in Theorem~17.
+
+\section{An admissible candidate set for Theorem 17}
+
+Definition~16 requires only that $\Rset\subseteq\{1,\ldots,\delta_m\}$
+consist of square-free integers. In particular, it permits
+\begin{equation}\label{eq:R}
+ \Rset=\{1\le r\le\delta_m:r\text{ is square-free},\
+                                  r\equiv3\pmod4\}.
+\end{equation}
+This is a parameter-dependent family of sets. The restriction to the
+smallest square-free integers is introduced separately in Section~4.2 of
+the paper and is not a hypothesis of Theorem~17.
+
+Denote the probability expression displayed in Theorem~17 by
+\begin{equation}\label{eq:F}
+ F(\Rset)=
+ \frac{1}{D'+\sqrt{D'^2-\delta_m}}
+ \sum_{r\in\Rset}\frac1{\sqrt r}.
+\end{equation}
+
+\begin{proposition}[An allowed set with zero actual probability]\label{prop:R}
+For the set~\eqref{eq:R}, under any degree distribution supported on
+$\Delta$,
+\begin{equation}\label{eq:zero}
+ \PrD[\exists r\in\Rset,\ c\in\N:\ D'^2-\delta=rc^2]=0.
+\end{equation}
+Nevertheless,
+\begin{equation}\label{eq:Fasym}
+F(\Rset)
+=
+\frac{4}{\pi^2}\,
+\frac{\sqrt{\delta_m}}{D'+\sqrt{D'^2-\delta_m}}
++
+O\!\left(
+\frac{\log\delta_m}{D'+\sqrt{D'^2-\delta_m}}
+\right).
+\end{equation}
+Thus, in the regime $D'^2\asymp\delta_m$, $F(\Rset)=\Theta(1)$.
+In particular, if $D'^2/\delta_m\to1$, then
+$F(\Rset)\to4/\pi^2\approx0.4053$.
+\end{proposition}
+
+In that regime, the exact uniform reference probability for the same set
+is also bounded away from zero; see Appendix~\ref{app:counter}.
+Thus the failure of the reference model is not merely an artefact of
+approximating integer counts.
+
+The expression in Theorem~17 therefore cannot approximate the actual
+POK\'E-2D probability with additive error $o(1)$ uniformly over all its
+allowed candidate sets. This identifies a limitation in applying the
+heuristic estimate; it does not refute a conditional implication whose
+premise is Heuristic~1. Moreover, $\#\Rset=\Theta(\delta_m)$, so this example
+does not invalidate the conditional recovery algorithm or establish an
+attack contradicting the proposed security parameters. The actual
+probability being smaller also leaves a one-sided upper bound unrefuted.
+
+\section{Effect of the KeyGen coprimality conditions}
+
+\begin{remark}
+In the original POK\'E-2D parameterization~\cite{BassoMaino2025},
+valid secret degrees additionally satisfy $\gcd(\delta,AD)=1$.
+Since $A$ is even, this forces $q$ to be odd. Hence
+\[
+ \delta=q(A-q)\equiv7\pmod8,\qquad
+ D'^2-\delta\equiv2\pmod8,\qquad
+ \sfpart(D'^2-\delta)\equiv2\pmod8.
+\]
+For any sampling weights on these admissible degrees, the event
+$\sfpart(D'^2-\delta)\not\equiv2\pmod8$ has probability zero.
+Keeping the paper's unconditioned reference distribution unchanged,
+its probability differs from $5/6$ by at most $\varepsilon$.
+Thus the statistical distance lower bound strengthens to
+\[
+ \frac56-\varepsilon.
+\]
+The zero-probability statement for~\eqref{eq:R} remains valid.
+\end{remark}
+
+In particular, Algorithm~1 of~\cite{Moriya2026}, based on Theorem~7,
+targets the condition
+\[
+ D'^2-\deg\varphi=c^2.
+\]
+This would require $\sfpart(D'^2-\deg\varphi)=1$, contradicting the
+congruence above. Hence no valid POK\'E-2D secret key satisfies this
+condition for any admissible $D'\mid D$: the square-condition weak-key
+class targeted by Algorithm~1 has probability zero.
+This does not exclude the generalized case in Algorithm~2 with
+$r\equiv2\pmod8$.
+
+A revised probability model should account for these local restrictions.
+The approximation in Heuristic~1 also needs an explicit error criterion
+and a range of candidate sets over which errors may be summed.
+Accounting for these congruence restrictions is necessary, but does not
+by itself justify the probability estimates.
+
+\appendix
+\section{Proof of the distributional discrepancy}\label{app:distribution}
+
+For $\delta=q(A-q)$, odd $D'$ and $8\mid A$ give
+\[
+ D'^2-\delta\equiv1+q^2\pmod8\in\{1,2,5\}.
+\]
+In particular, $4\nmid D'^2-\delta$. Writing $D'^2-\delta=rc^2$
+with $r$ square-free, $c$ must be odd; therefore $c^2\equiv1\pmod8$
+and $r\equiv D'^2-\delta\pmod8$.
+
+For the reference model, every positive integer $n$ has a unique
+decomposition $n=4^j m$ with $4\nmid m$. Since the square factor remaining
+in $m$ is odd, $\sfpart(n)\equiv m\pmod8$. Consequently, for
+$u\in\{1,2,3,5,6,7\}$,
+\begin{equation}\label{eq:progressions}
+ \sfpart(n)\equiv u\pmod8
+ \quad\Longleftrightarrow\quad
+ n=4^j(8k+u),\qquad j,k\ge0.
+\end{equation}
+For fixed $u$, the sets indexed by $j$ are disjoint.
+
+Now $D'^2-\delta_0$ is uniform on the $\delta_m$ integers in
+\[
+ I=\{D'^2-\delta_m,\ldots,D'^2-1\}.
+\]
+Set $M=D'^2-1$ and $J=\lfloor\log_4\delta_m\rfloor$.
+For $0\le j\le J$, let $h=8\cdot4^j$ and $a=4^j u$.
+The exact count is
+\begin{align}
+ \#\{n\in I:n\equiv a\pmod h\}
+ &=\left\lfloor\frac{M-a}{h}\right\rfloor
+   -\left\lfloor\frac{M-\delta_m-a}{h}\right\rfloor\notag\\
+ &=\frac{\delta_m}{h}+e_{j,u},\qquad |e_{j,u}|<1.
+ \label{eq:floor}
+\end{align}
+Indeed, $e_{j,u}$ is the difference of the fractional parts of
+$(M-\delta_m-a)/h$ and $(M-a)/h$. No divisibility assumption is needed.
+All remaining terms, with $j>J$, are divisible by $4^{J+1}$.
+Since $4^{J+1}>\delta_m$, at most one integer in $I$ can contribute
+to this tail. Denote its contribution for residue $u$ by $T_u\in\{0,1\}$.
+It follows that
+\[
+ \PrU[S_0\equiv u\pmod8]
+ =\frac16(1-4^{-(J+1)})
+   +\frac{\sum_{j=0}^{J}e_{j,u}+T_u}{\delta_m}.
+\]
+Now $0<\delta_m/(6\cdot4^{J+1})<1/6$, so
+\[
+ \left|T_u-\frac{\delta_m}{6\cdot4^{J+1}}\right|<1.
+\]
+Combining this with $|e_{j,u}|<1$ gives
+\[
+ \left|\PrU[S_0\equiv u\pmod8]-\frac16\right|
+ \le\frac{J+2}{\delta_m}=\varepsilon.
+\]
+This bound is independent of the position of $I$ and requires no upper
+bound on $D'^2/\delta_m$. Summing the classes $3,6,7$ gives
+\eqref{eq:forbidden}. Finally, total variation is the supremum of the
+probability difference over events, giving~\eqref{eq:TV}.
+
+\section{Square-free counting and the weighted sum}\label{app:counting}
+
+\begin{lemma}\label{lem:count}
+For $x\ge2$, let
+\[
+ N(x)=\#\{n\le x:n\text{ is square-free},\ n\equiv3\pmod4\}.
+\]
+Then
+\begin{equation}\label{eq:count}
+ N(x)=\frac2{\pi^2}x+O(\sqrt x),
+ \qquad
+ \sum_{\substack{n\le x\\n\text{ square-free}\\n\equiv3\ (4)}}
+ \frac1{\sqrt n}
+ =\frac4{\pi^2}\sqrt x+O(\log x).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Let $\mu$ be the M\"obius function. The identity
+\[
+ \mu(n)^2=\sum_{a^2\mid n}\mu(a)
+\]
+follows by expanding $\prod_{p^2\mid n}(1-1)$: the empty product is $1$,
+whereas the product is $0$ if a squared prime divides $n$.
+Interchanging finite sums gives
+\[
+ N(x)=
+ \sum_{a\le\sqrt x}\mu(a)
+ \#\{b\le x/a^2:a^2b\equiv3\pmod4\}.
+\]
+Even $a$ contribute nothing. For odd $a$, $a^2\equiv1\pmod4$, and
+\[
+ \#\{b\le y:b\equiv3\pmod4\}
+ =\left\lfloor\frac{y+1}{4}\right\rfloor
+ =\frac y4+O(1).
+\]
+Consequently,
+\begin{equation}\label{eq:mobiuscount}
+ N(x)=\frac x4\sum_{\substack{a\le\sqrt x\\a\ {\rm odd}}}
+                      \frac{\mu(a)}{a^2}+O(\sqrt x).
+\end{equation}
+The error follows from $|\mu(a)|\le1$ and at most $\sqrt x$ summands.
+Also,
+\[
+ \sum_{a>\sqrt x}\frac{|\mu(a)|}{a^2}=O(x^{-1/2}),
+\]
+so completing the sum in~\eqref{eq:mobiuscount} to infinity changes the
+answer by $O(\sqrt x)$.
+
+For completeness, the relevant Euler product follows from
+\[
+ \prod_{\substack{3\le p\le y\\p\ {\rm prime}}}(1-p^{-2})
+ =
+ \sum_{\substack{a\ge1,\ a\ {\rm odd}\\p\mid a\Rightarrow p\le y}}
+ \frac{\mu(a)}{a^2}.
+\]
+Expanding the finite product selects distinct odd primes, and their
+product $a$ has coefficient $\mu(a)$. The omitted terms have $a>y$,
+with absolute sum at most $\sum_{a>y}a^{-2}\to0$. Hence
+\[
+ \sum_{\substack{a\ge1\\a\ {\rm odd}}}\frac{\mu(a)}{a^2}
+ =\prod_{p\ne2}(1-p^{-2})
+ =\frac{\zeta(2)^{-1}}{1-2^{-2}}
+ =\frac8{\pi^2}.
+\]
+Substituting into~\eqref{eq:mobiuscount} proves the first formula.
+
+To prove the weighted formula, let
+$a_n=\mathbf1_{\{n\ {\rm square\text{-}free},\,n\equiv3\ (4)\}}$.
+Then $N(t)=\sum_{n\le t}a_n$. For $f\in C^1([1,x])$, the identity
+$f(n)=f(x)-\int_n^x f'(t)\,dt$ and linearity of integration over
+a finite sum imply
+\begin{align*}
+ \sum_{n\le x}a_nf(n)
+ &=N(x)f(x)
+   -\int_1^x\left(\sum_{n\le x}a_n\mathbf1_{\{n\le t\}}\right)
+     f'(t)\,dt\\
+ &=N(x)f(x)-\int_1^x N(t)f'(t)\,dt.
+\end{align*}
+Applying this exact identity to $f(t)=t^{-1/2}$ yields
+\[
+ \sum_{n\le x}\frac{a_n}{\sqrt n}
+ =\frac{N(x)}{\sqrt x}
+  +\frac12\int_1^x N(t)t^{-3/2}\,dt.
+\]
+Write $N(t)=\alpha t+E(t)$, where
+$\alpha=2/\pi^2$ and $E(t)=O(\sqrt t)$ for $t\ge1$.
+The endpoint contributes $\alpha\sqrt x+O(1)$, and the main term in
+the integral contributes
+\[
+ \frac{\alpha}{2}\int_1^x t^{-1/2}\,dt
+ =\alpha(\sqrt x-1).
+\]
+The remaining integral is bounded in absolute value by
+\[
+ \frac12\int_1^x |E(t)|t^{-3/2}\,dt
+ =O\!\left(\int_1^x\frac{dt}{t}\right)=O(\log x).
+\]
+Combining these terms proves the second formula.
+\end{proof}
+
+\section{The candidate-set counterexample and reference counts}
+\label{app:counter}
+
+For $\delta\in\Delta$,
+\[
+ D'^2-\delta\equiv1+q^2\pmod4\in\{1,2\}.
+\]
+For $r\equiv3\pmod4$, however, $rc^2$ is $0$ or $3$ modulo $4$.
+Thus the equality $D'^2-\delta=rc^2$ is impossible, proving
+\eqref{eq:zero} for any sampling weights on $\Delta$.
+
+By Lemma~\ref{lem:count},
+\[
+ \#\Rset=\frac2{\pi^2}\delta_m+O(\sqrt{\delta_m}),
+ \qquad
+ \sum_{r\in\Rset}\frac1{\sqrt r}
+ =\frac4{\pi^2}\sqrt{\delta_m}+O(\log\delta_m).
+\]
+Substitution in~\eqref{eq:F} and division of numerator and denominator
+by $\sqrt{\delta_m}$ prove~\eqref{eq:Fasym}.
+If $D'^2\asymp\delta_m$, the denominator in~\eqref{eq:Fasym} is
+bounded above and bounded below by $1$, whereas the numerator tends to
+$4/\pi^2$. This proves the constant-order assertion.
+If $D'^2/\delta_m\to1$, the denominator tends to $1$.
+
+\paragraph{Exact reference probability.}
+Let $b=\lceil D'/\sqrt{\delta_m}\rceil$ and count only reference degrees with
+$D'^2-\delta_0=b^2r$, $r\in\Rset$. Such $r$ lie in
+\[
+ \left[\frac{D'^2-\delta_m}{b^2},
+       \frac{D'^2-1}{b^2}\right]\subset(0,\delta_m].
+\]
+Every square-free $r\equiv3\pmod4$ in this interval yields a distinct
+valid $\delta_0$ and satisfies $\sfpart(b^2r)=r$.
+Lemma~\ref{lem:count}, with an $O(1)$ endpoint correction, gives
+\[
+ \#\{r\text{ in this interval}:r\text{ square-free},\
+                              r\equiv3\pmod4\}
+ =\frac{2(\delta_m-1)}{\pi^2b^2}+O(\sqrt{\delta_m}).
+\]
+For endpoints below $2$, the same estimate follows by absorbing a bounded
+error. Dividing by $\delta_m$ proves
+\begin{equation}\label{eq:exactreference}
+ \PrU[S_0\in\Rset]\ge
+ \frac2{\pi^2b^2}-O(\delta_m^{-1/2}).
+\end{equation}
+Thus the exact reference distribution already assigns positive constant
+mass, when $D'^2\asymp\delta_m$ and hence $b=O(1)$, to a set that is
+impossible under the actual degree support.
+
+\paragraph{Rounding and accumulation of errors.}
+For each square-free $r$, the exact reference probability is
+\begin{align*}
+ \PrU[S_0=r]
+ &=\frac1{\delta_m}
+ \left(
+  \left\lceil\frac{D'}{\sqrt r}\right\rceil
+  -\left\lceil\sqrt{\frac{D'^2-\delta_m}{r}}\right\rceil
+ \right)\\
+ &=\frac1{\sqrt r\bigl(D'+\sqrt{D'^2-\delta_m}\bigr)}
+   +\eta_r,\qquad |\eta_r|\le\frac1{\delta_m}.
+\end{align*}
+Define the model error
+$\varepsilon_r=\PrD[S=r]-\PrU[S_0=r]$. For any admissible $\Rset$,
+\begin{equation}\label{eq:errors}
+ \PrD[S\in\Rset]
+ =F(\Rset)+\sum_{r\in\Rset}\varepsilon_r
+           +\sum_{r\in\Rset}\eta_r,
+ \qquad
+ \left|\sum_{r\in\Rset}\eta_r\right|
+ \le\frac{\#\Rset}{\delta_m}.
+\end{equation}
+Pointwise additive $o(1)$ bounds on $\varepsilon_r$ do not bound their
+sum over growing sets. For the family~\eqref{eq:R}, the available
+rounding bound is also constant-sized. Statements~\eqref{eq:forbidden}
+and~\eqref{eq:exactreference} establish the model discrepancy independently
+of these rounding errors.
+
+\begin{thebibliography}{2}
+\bibitem{Moriya2026}
+Tomoki Moriya.
+\newblock \emph{On weak keys of POK\'E}.
+\newblock Cryptology ePrint Archive, Paper 2026/1002,
+version dated 2026-05-21.
+\newblock \url{https://eprint.iacr.org/2026/1002}.
+\bibitem{BassoMaino2025}
+Andrea Basso and Luciano Maino.
+\newblock \emph{POK\'E: A Compact and Efficient PKE from
+Higher-dimensional Isogenies}.
+\newblock EUROCRYPT 2025, pp.~94--123.
+\newblock \url{https://eprint.iacr.org/2024/624}.
+\end{thebibliography}
+\end{document}
+
