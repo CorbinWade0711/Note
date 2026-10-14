@@ -6,7 +6,7 @@ Wenbiao Chen · Oct. 14, 2026
 
 This note examines congruence restrictions affecting Heuristic 1 and the weak-key probability estimates in [1]. It also explains why the square condition targeted by Algorithm 1 cannot occur for valid POKÉ-2D keys.
 
-[PDF](POKE_Heuristic1_Note.pdf) · [LaTeX source](POKE_Heuristic1_Note.tex)
+[PDF](poke_heuristic_analysis.pdf) · [LaTeX source](poke_heuristic_analysis.tex)
 
 ### References
 
